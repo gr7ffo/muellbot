@@ -1,0 +1,5 @@
+beautifulsoup4
+python-dateutil
+python-telegram-bot
+requests
+todoist-api-python
