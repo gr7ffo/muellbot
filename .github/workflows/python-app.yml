@@ -7,7 +7,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: production
+    env:
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      BOT_URL: ${{ secrets.BOT_URL }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+      CHAT_ID_LOCATION: ${{ secrets.CHAT_ID_LOCATION }}
+      DOIST_TOKEN: ${{ secrets.DOIST_TOKEN }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
