@@ -24,5 +24,8 @@ jobs:
         python main.py
     - name: Commit changes
       run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
         git add next_collection_date.json
         git commit -m "UPDATED"
+        git push origin main
