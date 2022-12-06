@@ -98,7 +98,7 @@ def send_daily_schedule(bot):
                 bot.send_message(chat_id=CHAT_ID, text=message_text)
                 logging.debug('Trying to create Todoist task')
                 try:
-                    create_todoist(collection + ' rausstellen', next_collections[collection]['collection_date'])
+                    create_todoist(collection + ' rausstellen')
                     logging.debug('Todoist task created')
                 except Exception as e:
                     bot.send_message(chat_id=CHAT_ID, text='Todoist task could not be created!')
