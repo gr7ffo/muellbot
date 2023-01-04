@@ -83,44 +83,7 @@ def create_todoist(content: str):
     api.add_task(content=content, due_string='today', project_id=2284232182)
 
 
-def send_daily_schedule(bot):
-    """Send daily schedule to Telegram chat"""
-    logging.debug('Loading files')
-    next_collections = json.load(open('next_collection_date.json', encoding='utf-8'))
-
-    logging.debug('Running daily')
-    try:
-        logging.info('New collection dates found')
-        next_collections = get_collection_dates(BOT_URL + CHAT_ID_LOCATION, next_collections)
-        for collection in next_collections.keys():
-            if next_collections[collection]['days_to_go'] == 0:
-                logging.debug(f'Sending message to {CHAT_ID}')
-                message_text = collection + ' ist morgen (' + next_collections[collection]['collection_date'] + ') dran!'
-                asyncio.run(bot.send_message(chat_id=CHAT_ID, text=message_text))
-                logging.debug('Trying to create Todoist task')
-                try:
-                    create_todoist(collection + ' rausstellen')
-                    logging.debug('Todoist task created')
-                except Exception as e:
-                    asyncio.run(bot.send_message(chat_id=CHAT_ID, text='Todoist task could not be created!'))
-                    logging.error('Todoist task could not be created!')
-                    logging.error(e)
-            elif next_collections[collection]['days_to_go'] < 0:
-                logging.debug(f'Sending message to {CHAT_ID}')
-                message_text = collection + ' war am ' + next_collections[collection]['collection_date'] + ' dran.'
-                asyncio.run(bot.send_message(chat_id=CHAT_ID, text=message_text))
-            else:
-                logging.debug(f'Sending message to {CHAT_ID}')
-                message_text = collection + ' ist erst am ' + next_collections[collection]['collection_date'] + ' dran.'
-                asyncio.run(bot.send_message(chat_id=CHAT_ID, text=message_text))    
-        logging.info('Daily message sent')
-    except Exception as e:
-        error_text = f'Something went wrong during daily parsing: {e}'
-        logging.error(error_text)
-        asyncio.run(bot.send_message(chat_id=CHAT_ID, text=error_text))
-
-
-def main():
+async def main():
     """Main method"""
     try:
         json.load(open('next_collection_date.json', encoding='utf-8'))
@@ -129,8 +92,40 @@ def main():
 
     bot = telegram.Bot(token=BOT_TOKEN)
     logging.info('Telegram bot created')
-    send_daily_schedule(bot)
+
+    async with bot:
+        next_collections = json.load(open('next_collection_date.json', encoding='utf-8'))
+
+        logging.debug('Running daily')
+        try:
+            logging.info('New collection dates found')
+            next_collections = get_collection_dates(BOT_URL + CHAT_ID_LOCATION, next_collections)
+            for collection in next_collections.keys():
+                if next_collections[collection]['days_to_go'] == 0:
+                    logging.debug(f'Sending message to {CHAT_ID}')
+                    message_text = collection + ' ist morgen (' + next_collections[collection]['collection_date'] + ') dran!'
+                    await bot.send_message(chat_id=CHAT_ID, text=message_text)
+                    logging.debug('Trying to create Todoist task')
+                    try:
+                        create_todoist(collection + ' rausstellen')
+                        logging.debug('Todoist task created')
+                    except Exception as e:
+                        await bot.send_message(chat_id=CHAT_ID, text='Todoist task could not be created!')
+                        logging.error('Todoist task could not be created!')
+                        logging.error(e)
+                elif next_collections[collection]['days_to_go'] < 0:
+                    logging.debug(f'Sending message to {CHAT_ID}')
+                    message_text = collection + ' war am ' + next_collections[collection]['collection_date'] + ' dran.'
+                    await bot.send_message(chat_id=CHAT_ID, text=message_text)
+                else:
+                    logging.debug(f'Sending message to {CHAT_ID}')
+                    message_text = collection + ' ist erst am ' + next_collections[collection]['collection_date'] + ' dran.'
+                    await bot.send_message(chat_id=CHAT_ID, text=message_text)
+            logging.info('Daily message sent')
+        except Exception as e:
+            error_text = f'Something went wrong during daily parsing: {e}'
+            logging.error(error_text)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
