@@ -125,8 +125,8 @@ async def main():
                     #logging.debug(f'Sending message to {CHAT_ID}')
                     #message_text = collection + ' ist erst am ' + next_collections[collection]['collection_date'] + ' dran.'
                     #await bot.send_message(chat_id=CHAT_ID, text=message_text)
+                    #logging.info('Daily message sent')
                     pass
-            logging.info('Daily message sent')
         except Exception as e:
             error_text = f'Something went wrong during daily parsing: {e}'
             logging.error(error_text)
