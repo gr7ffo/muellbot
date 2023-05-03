@@ -80,7 +80,7 @@ def get_correct_date(date: str):
 def create_todoist(content: str):
     """Create a todoist task for given collection date"""
     api = TodoistAPI(DOIST_TOKEN)
-    api.add_task(content=content, due_string='today', project_id=2284232182)
+    api.add_task(content=content, due_string='today', project_id=2312227161)
 
 
 async def main():
@@ -117,10 +117,15 @@ async def main():
                     logging.debug(f'Sending message to {CHAT_ID}')
                     message_text = collection + ' war am ' + next_collections[collection]['collection_date'] + ' dran.'
                     await bot.send_message(chat_id=CHAT_ID, text=message_text)
-                else:
+                elif next_collections[collection]['days_to_go'] == 6:
                     logging.debug(f'Sending message to {CHAT_ID}')
-                    message_text = collection + ' ist erst am ' + next_collections[collection]['collection_date'] + ' dran.'
+                    message_text = collection + ' ist am ' + next_collections[collection]['collection_date'] + ' dran.'
                     await bot.send_message(chat_id=CHAT_ID, text=message_text)
+                else:
+                    #logging.debug(f'Sending message to {CHAT_ID}')
+                    #message_text = collection + ' ist erst am ' + next_collections[collection]['collection_date'] + ' dran.'
+                    #await bot.send_message(chat_id=CHAT_ID, text=message_text)
+                    pass
             logging.info('Daily message sent')
         except Exception as e:
             error_text = f'Something went wrong during daily parsing: {e}'
