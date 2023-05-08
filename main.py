@@ -107,7 +107,7 @@ async def main():
                     await bot.send_message(chat_id=CHAT_ID, text=message_text)
                     logging.debug('Trying to create Todoist task')
                     try:
-                        create_todoist(collection + ' rausstellen')
+                        create_todoist(collection + ' rausstellen @neumarkt')
                         logging.debug('Todoist task created')
                     except Exception as e:
                         await bot.send_message(chat_id=CHAT_ID, text='Todoist task could not be created!')
