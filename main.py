@@ -80,7 +80,7 @@ def get_correct_date(date: str):
 def create_todoist(content: str):
     """Create a todoist task for given collection date"""
     api = TodoistAPI(DOIST_TOKEN)
-    api.add_task(content=content, due_string='today', project_id=2312227161)
+    api.add_task(content=content, due_string='today', project_id=2312227161, labels=["neumarkt"])
 
 
 async def main():
@@ -107,7 +107,7 @@ async def main():
                     await bot.send_message(chat_id=CHAT_ID, text=message_text)
                     logging.debug('Trying to create Todoist task')
                     try:
-                        create_todoist(collection + ' rausstellen @neumarkt')
+                        create_todoist(collection + ' rausstellen')
                         logging.debug('Todoist task created')
                     except Exception as e:
                         await bot.send_message(chat_id=CHAT_ID, text='Todoist task could not be created!')
