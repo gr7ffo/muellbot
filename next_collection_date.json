@@ -1,14 +1,14 @@
 {
     "Gelber Sack": {
         "collection_date": "11.09.2023",
-        "days_to_go": 7
+        "days_to_go": 6
     },
     "Papiertonne": {
         "collection_date": "26.09.2023",
-        "days_to_go": 22
+        "days_to_go": 21
     },
     "Restmülltonne": {
         "collection_date": "12.09.2023",
-        "days_to_go": 8
+        "days_to_go": 7
     }
 }
