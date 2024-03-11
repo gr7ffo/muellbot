@@ -80,7 +80,7 @@ def get_correct_date(date: str):
 def create_todoist(content: str):
     """Create a todoist task for given collection date"""
     api = TodoistAPI(DOIST_TOKEN)
-    api.add_task(content=content, due_string='today', project_id=2312227161, labels=["neumarkt"])
+    api.add_task(content=content, due_string='today', project_id=2329711605, labels=["aktion"])
 
 
 async def main():
