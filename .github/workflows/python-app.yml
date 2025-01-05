@@ -17,11 +17,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python -m pip install --upgrade pip, uv
     - name: Run script
       run: |
-        python main.py
+        uv run main.py
     - name: Commit changes
       run: |
         git config user.name "GitHub Actions Bot"
